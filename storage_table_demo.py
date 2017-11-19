@@ -67,52 +67,64 @@ raw_input('Press Enter to continue...')
 # A row key is a unique ID for each entity in the partition
 # These two properties are used as a primary key to index the Table. This makes queries much quicker.
 
-pizza = Entity()
-pizza.PartitionKey = 'pizzamenu'
-pizza.RowKey = '001'
-pizza.description = 'Pepperoni'
-pizza.cost = 18
-table_service.insert_entity('itemstable', pizza)
-print('Created entry for pepperoni...')
+car = Entity()
+car.PartitionKey = 'dealership'
+car.RowKey = '001'
+car.make = 'Honda'
+car.model = 'Accord'
+car.year = 2015
+car.color = 'Charcoal'
+car.price = 22000
+table_service.insert_entity('itemstable', car)
+print('Created entry for Honda Accord...')
 
-pizza = Entity()
-pizza.PartitionKey = 'pizzamenu'
-pizza.RowKey = '002'
-pizza.description = 'Veggie'
-pizza.cost = 15
-table_service.insert_entity('itemstable', pizza)
-print('Created entry for veggie...')
 
-pizza = Entity()
-pizza.PartitionKey = 'pizzamenu'
-pizza.RowKey = '003'
-pizza.description = 'Hawaiian'
-pizza.cost = 12
-table_service.insert_entity('itemstable', pizza)
-print('Created entry for Hawaiian...\n')
+car = Entity()
+car.PartitionKey = 'dealership'
+car.RowKey = '002'
+car.make = 'Suburu'
+car.model = 'Crosstrek'
+car.year = 2018
+car.color = 'Blue'
+car.price = 21000
+table_service.insert_entity('itemstable', car)
+print('Created entry for Suburu Crosstrek...')
+
+car = Entity()
+car.PartitionKey = 'dealership'
+car.RowKey = '003'
+car.make = 'Honda'
+car.model = 'Civic'
+car.year = 2016
+car.color = 'Black'
+car.price = 21500
+table_service.insert_entity('itemstable', car)
+print('Created entry for Honda Civic...')
 
 # A partition key tracks how like-minded entries in the Table are created and queried.
 # A row key is a unique ID for each entity in the partition
 # These two properties are used as a primary key to index the Table. This makes queries much quicker.
 
-clothing = Entity()
-clothing.PartitionKey = 'clothingstore'
-clothing.RowKey = '005'
-clothing.sku = 'BLK203123'
-clothing.item = 'sweater'
-clothing.cost = 22.99
-table_service.insert_entity('itemstable', clothing)
-print('Created entry for a Sweater...\n')
+coffee = Entity()
+coffee.PartitionKey = 'coffeeshop'
+coffee.RowKey = '001'
+coffee.brand = 'Maxwell House'
+coffee.flavor = 'Columbian'
+coffee.size = 'Medium'
+coffee.price = .99
+table_service.insert_entity('itemstable', coffee)
+print('Created entry for a Maxwell House...\n')
 time.sleep(1)
 
-clothing = Entity()
-clothing.PartitionKey = 'clothingstore'
-clothing.RowKey = '006'
-clothing.sku = 'BLK203143'
-clothing.item = 'jeans'
-clothing.cost = 55.99
-table_service.insert_entity('itemstable', clothing)
-print('Created entry for Jeans...\n')
+coffee = Entity()
+coffee.PartitionKey = 'coffeeshop'
+coffee.RowKey = '002'
+coffee.brand = 'Starbucks'
+coffee.flavor = 'Fancy'
+coffee.size = 'Medium'
+coffee.price = 9999.99
+table_service.insert_entity('itemstable', coffee)
+print('Created entry for a Starbucks...\n')
 time.sleep(1)
 
 ###
@@ -123,14 +135,19 @@ raw_input('Press Enter to continue...')
 
 # In this query, you define the partition key to search within, and then which properties to retrieve
 # Structuring queries like this improves performance as your application scales up and keeps the queries efficient
-items = table_service.query_entities('itemstable', filter="PartitionKey eq 'pizzamenu'", select='description,cost')
+items = table_service.query_entities('itemstable', filter="PartitionKey eq 'dealership'", select='make, model, year, color, price')
 for item in items:
-    print('Name: ' + item.description)
-    print('Cost: ' + str(item.cost) + '\n')
+    print('Make: ' + item.make)
+    print('Model: ' + item.model)
+    print('Year: ' + str(item.year))
+    print('Color: ' + item.color)
+    print('Price: ' + str(item.price) + '\n')
 
-items = table_service.query_entities('itemstable', filter="PartitionKey eq 'clothingstore'", select='description,price')
+items = table_service.query_entities('itemstable', filter="PartitionKey eq 'coffeeshop'", select='brand,flavor,size,price')
 for item in items:
-    print('Name: ' + item.description)
+    print('Brand: ' + item.brand)
+    print('Flavor: ' + item.flavor)
+    print('Size: ' + item.size)
     print('Price: ' + str(item.price) + '\n')
 
 time.sleep(1)
